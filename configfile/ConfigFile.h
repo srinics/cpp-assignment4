@@ -1,3 +1,8 @@
+/*
+* Author: M1043833 ( Srinivasan Rajendran )
+* Description: This file (ConfigFile.h) contains class ConfigFile*
+* */
+
 #ifndef __CONFIGFILE__
 #define __CONFIGFILE__
 
@@ -23,7 +28,7 @@ class ConfigFile{
 
 private:
     std::string configFileStr;
-#ifndef _WIN32	
+#ifndef _WIN32
     GKeyFile *keyFile;
 #endif
 
@@ -45,5 +50,4 @@ public:
 
 
 #endif
-
 
