@@ -1,26 +1,45 @@
+/*
+* Author: M1043833 ( Srinivasan Rajendran )
+* Description: This file (ConfigFile.cpp) contains api of the class ConfigFile*
+* */
+
+
 #include "ConfigFile.h"
 
 #ifndef _WIN32
-
+/*
+Author: M1043833
+Function Name: InitConfigLinux(const char *path))
+Description:
+This used to initiate key configuration ptr.
+This function will use in Linux enviroment.
+*/
 bool ConfigFile::InitConfigLinux(const char *path){
-	g_autoptr(GError) error = NULL;
-	SetKeyFilePtr(g_key_file_new ());
+    g_autoptr(GError) error = NULL;
+    SetKeyFilePtr(g_key_file_new ());
 
-	if (!g_key_file_load_from_file (GetKeyFilePtr(), path, G_KEY_FILE_NONE,  &error))
-	{
-	    throw std::runtime_error("Error in config file load linux");
-	}
-	return true;
+    if (!g_key_file_load_from_file (GetKeyFilePtr(), path, G_KEY_FILE_NONE,  &error))
+    {
+        throw std::runtime_error("Error in config file load linux");
+    }
+    return true;
 
 }
 GKeyFile * ConfigFile::GetKeyFilePtr(){
-	return keyFile;
+    return keyFile;
 }
 void ConfigFile::SetKeyFilePtr(GKeyFile *p){
-	keyFile = p;
+    keyFile = p;
 }
 #endif
 
+
+/*
+Author: M1043833
+Description:
+Parameterize constructor for ConfigFile class. Getting config file as a string argument and check the file
+presence and if present and it will initiate configFileStr.
+*/
 ConfigFile::ConfigFile(const std::string & path){
 
 
@@ -39,7 +58,7 @@ ConfigFile::ConfigFile(const std::string & path){
 #ifndef _WIN32
     InitConfigLinux(path.c_str());
 #endif
-	
+
     //std::cout << "File path: " << path << std::endl;
     SetConfigFileStr(path);
 
@@ -52,17 +71,28 @@ void ConfigFile::SetConfigFileStr(const std::string & p){
     configFileStr = p;
 }
 
-
+/*
+Author: M1043833
+Description:
+Destructor for ConfigFile class.
+*/
 ConfigFile::~ConfigFile(){
     std::cout << "ConfigFile destructor....." << std::endl;
 #ifndef _WIN32
     if(GetKeyFilePtr()){
-	    g_key_file_free(GetKeyFilePtr());
+        g_key_file_free(GetKeyFilePtr());
     }
 #endif
 }
 
-
+/*
+Author: M1043833
+Function Name: GetString(const std::string & section, const std::string  & attr, std::string default_value="none")
+Description:
+This used to used to get string value from the configuration file(.ini) and
+it will take section name, attribute name and default value. And it will return the configuration
+value else return default value in case invalid section/attr name.
+*/
 std::string ConfigFile::GetString(const std::string & section, const std::string  & attr, std::string default_value="none"){
 
     char iniValue[256];
@@ -71,16 +101,16 @@ std::string ConfigFile::GetString(const std::string & section, const std::string
 #else
     std::cout << "GetString in Linux Env......" << std::endl;
     g_autoptr(GError) error = NULL;
-   
+
     gchar *value = g_key_file_get_string (GetKeyFilePtr(),
                               section.c_str(),
                               attr.c_str(),
                               &error);
     if(error){
- 	strcpy(iniValue, default_value.c_str());
+    strcpy(iniValue, default_value.c_str());
     }else{
- 	strcpy(iniValue, value);
-	g_free(value);
+    strcpy(iniValue, value);
+    g_free(value);
     }
 #endif
 
@@ -90,7 +120,14 @@ std::string ConfigFile::GetString(const std::string & section, const std::string
 }
 
 
-
+/*
+Author: M1043833
+Function Name: GetInteger(const std::string & section, const std::string  & attr, std::string default_value="none")
+Description:
+This used to used to get integer value from the configuration file(.ini) and
+it will take section name, attribute name and default value. And it will return the configuration
+value else return default value in case invalid section/attr name.
+*/
 int ConfigFile::GetInteger(const std::string & section, const std::string  & attr, int default_value=0){
     int iniValue=0;
 #ifdef _WIN32
@@ -104,7 +141,7 @@ int ConfigFile::GetInteger(const std::string & section, const std::string  & att
                               attr.c_str(),
                               &error);
     if(error){
-	    iniValue=default_value;
+        iniValue=default_value;
     }
 
 #endif
