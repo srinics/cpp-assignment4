@@ -83,6 +83,16 @@ int ConfigFile::GetInteger(const std::string & section, const std::string  & att
     iniValue = GetPrivateProfileInt(section.c_str(), attr.c_str(), default_value, GetConfigFileStr().c_str());
 #else
     std::cout << "GetInteger in Linux Env......" << std::endl;
+
+    g_autoptr(GError) error = NULL;
+    iniValue = g_key_file_get_integer (keyFile,
+                              section.c_str(),
+                              attr.c_str(),
+                              &error);
+    if(error){
+	    iniValue=default_value;
+    }
+
 #endif
     std::cout << "IntegerValue: in ["<< section <<"][" << attr << "]:" << iniValue << std::endl;
     //std::cout << "File: "<< GetConfigFileStr().c_str() << std::endl;
