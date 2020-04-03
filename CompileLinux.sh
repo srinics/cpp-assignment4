@@ -19,6 +19,14 @@ else
     echo "Package  is NOT installed!"
 fi
 
+dpkg -s glib2.0 &> /dev/null
+if [ $? -eq 0 ]; then
+    echo "Package  is installed!"
+else  
+    apt install glib2.0 --fix-missing -y
+    echo "Package  is NOT installed!"
+fi
+
 
 mkdir -p $build_dir
 pushd $build_dir
