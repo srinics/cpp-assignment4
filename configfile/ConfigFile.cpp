@@ -4,12 +4,13 @@
 
 bool ConfigFile::InitConfigLinux(const char *path){
 	g_autoptr(GError) error = NULL;
-	key_file = g_key_file_new ();
+	keyFile = g_key_file_new ();
 
-	if (!g_key_file_load_from_file (key_file, path, flags, &error))
+	if (!g_key_file_load_from_file (keyFile, path, G_KEY_FILE_NONE,  &error))
 	{
 	    throw std::runtime_error("Error in config file load linux");
 	}
+	return true;
 
 }
 #endif
