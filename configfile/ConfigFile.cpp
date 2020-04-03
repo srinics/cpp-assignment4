@@ -4,7 +4,7 @@
 
 bool ConfigFile::InitConfigLinux(const char *path){
 	g_autoptr(GError) error = NULL;
-	g_autoptr(GKeyFile) key_file = g_key_file_new ();
+	key_file = g_key_file_new ();
 
 	if (!g_key_file_load_from_file (key_file, path, flags, &error))
 	{

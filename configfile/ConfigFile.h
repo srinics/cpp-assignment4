@@ -14,6 +14,7 @@
 #include <WinBase.h>
 #else
 #include <unistd.h>
+#include <glib.h>
 #endif
 using namespace std;
 
@@ -22,6 +23,9 @@ class ConfigFile{
 
 private:
     std::string configFileStr;
+#ifndef _WIN32	
+    GKeyFile *keyFile;
+#endif
 
 
 public:
@@ -29,6 +33,9 @@ public:
     ConfigFile(const std::string & file);
     std::string GetConfigFileStr() const;
     void SetConfigFileStr(const std::string &p);
+#ifndef _WIN32
+    bool InitConfigLinux(const char *p);
+#endif
     std::string GetString(const std::string & section, const std::string & attr, std::string defaultValue);
     int GetInteger(const std::string & section, const std::string & attr, int defaultValue);
     ~ConfigFile();
