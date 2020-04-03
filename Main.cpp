@@ -34,17 +34,17 @@ int main(int argv, char **argc){
 
     try{
         char vSection[8];
-        std::string libName(FEATURE_LIBS);
+        std::string libName;
         std::string apiName;
 
         std::unique_ptr<ConfigFile> c(new ConfigFile(CONFIG_FILE));
 #ifdef _WIN32
         sprintf_s (vSection, "%d.%d", c->GetInteger("Version", "majorNumber", -1), c->GetInteger("Version", "minorNumber", -1) );
         libName = c->GetString(vSection, "libWindows", "");
-      	libName.append(c->GetString(vSection, "libLinux", ""));
 #else
+        libName.append(FEATURE_LIBS);
         sprintf (vSection, "%d.%d", c->GetInteger("Version", "majorNumber", -1), c->GetInteger("Version", "minorNumber", -1) );
-      	libName.append(c->GetString(vSection, "libLinux", ""));
+        libName.append(c->GetString(vSection, "libLinux", ""));
 #endif
 
         apiName = c->GetString(vSection, "api", "");
