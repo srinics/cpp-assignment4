@@ -1,3 +1,9 @@
+/*
+* Author: M1043833 ( Srinivasan Rajendran )
+* Description: This file (LoadLib.h) contains contains prototype for LoadLib.cpp
+*
+* */
+
 #ifndef LOADLIB_H
 #define LOADLIB_H
 
