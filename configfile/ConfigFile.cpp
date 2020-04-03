@@ -1,5 +1,18 @@
 #include "ConfigFile.h"
 
+#ifndef _WIN32
+
+bool ConfigFile::InitConfigLinux(const char *path){
+	g_autoptr(GError) error = NULL;
+	g_autoptr(GKeyFile) key_file = g_key_file_new ();
+
+	if (!g_key_file_load_from_file (key_file, path, flags, &error))
+	{
+	    throw std::runtime_error("Error in config file load linux");
+	}
+
+}
+#endif
 
 ConfigFile::ConfigFile(const std::string & path){
 
@@ -15,6 +28,11 @@ ConfigFile::ConfigFile(const std::string & path){
         std::cout << "Error, Invalid File path: " << path.c_str() << std::endl;
         throw std::runtime_error("Invalid file");
     }
+
+#ifndef _WIN32
+    InitConfigLinux(path.c_str());
+#endif
+	
     //std::cout << "File path: " << path << std::endl;
     SetConfigFileStr(path);
 
