@@ -60,13 +60,16 @@ std::string ConfigFile::GetString(const std::string & section, const std::string
 #else
     std::cout << "GetString in Linux Env......" << std::endl;
     g_autoptr(GError) error = NULL;
-    g_key_file_get_locale_string (keyFile,
+   
+    gchar *value = g_key_file_get_string (keyFile,
                               section.c_str(),
                               attr.c_str(),
-                              iniValue,
                               &error);
     if(error){
  	strcpy(iniValue, default_value.c_str());
+    }else{
+ 	strcpy(iniValue, value);
+	g_free(value);
     }
 #endif
 
