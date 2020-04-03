@@ -38,10 +38,11 @@ int main(int argv, char **argc){
         std::string apiName;
 
         std::unique_ptr<ConfigFile> c(new ConfigFile(CONFIG_FILE));
-        sprintf_s (vSection, "%d.%d", c->GetInteger("Version", "majorNumber", -1), c->GetInteger("Version", "minorNumber", -1) );
 #ifdef _WIN32
+        sprintf_s (vSection, "%d.%d", c->GetInteger("Version", "majorNumber", -1), c->GetInteger("Version", "minorNumber", -1) );
         libName = c->GetString(vSection, "libWindows", "");
 #else
+        sprintf (vSection, "%d.%d", c->GetInteger("Version", "majorNumber", -1), c->GetInteger("Version", "minorNumber", -1) );
         libName = c->GetString(vSection, "libLinux", "");
 #endif
 
