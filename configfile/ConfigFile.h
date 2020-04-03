@@ -35,6 +35,8 @@ public:
     void SetConfigFileStr(const std::string &p);
 #ifndef _WIN32
     bool InitConfigLinux(const char *p);
+    void SetKeyFilePtr(GKeyFile *p);
+    GKeyFile* GetKeyFilePtr();
 #endif
     std::string GetString(const std::string & section, const std::string & attr, std::string defaultValue);
     int GetInteger(const std::string & section, const std::string & attr, int defaultValue);

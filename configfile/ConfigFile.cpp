@@ -4,14 +4,20 @@
 
 bool ConfigFile::InitConfigLinux(const char *path){
 	g_autoptr(GError) error = NULL;
-	keyFile = g_key_file_new ();
+	SetKeyFilePtr(g_key_file_new ());
 
-	if (!g_key_file_load_from_file (keyFile, path, G_KEY_FILE_NONE,  &error))
+	if (!g_key_file_load_from_file (GetKeyFilePtr(), path, G_KEY_FILE_NONE,  &error))
 	{
 	    throw std::runtime_error("Error in config file load linux");
 	}
 	return true;
 
+}
+GKeyFile * ConfigFile::GetKeyFilePtr(){
+	return keyFile;
+}
+void ConfigFile::SetKeyFilePtr(GKeyFile *p){
+	keyFile = p;
 }
 #endif
 
@@ -49,6 +55,11 @@ void ConfigFile::SetConfigFileStr(const std::string & p){
 
 ConfigFile::~ConfigFile(){
     std::cout << "ConfigFile destructor....." << std::endl;
+#ifndef _WIN32
+    if(GetKeyFilePtr()){
+	    g_key_file_free(GetKeyFilePtr());
+    }
+#endif
 }
 
 
@@ -61,7 +72,7 @@ std::string ConfigFile::GetString(const std::string & section, const std::string
     std::cout << "GetString in Linux Env......" << std::endl;
     g_autoptr(GError) error = NULL;
    
-    gchar *value = g_key_file_get_string (keyFile,
+    gchar *value = g_key_file_get_string (GetKeyFilePtr(),
                               section.c_str(),
                               attr.c_str(),
                               &error);
@@ -88,7 +99,7 @@ int ConfigFile::GetInteger(const std::string & section, const std::string  & att
     std::cout << "GetInteger in Linux Env......" << std::endl;
 
     g_autoptr(GError) error = NULL;
-    iniValue = g_key_file_get_integer (keyFile,
+    iniValue = g_key_file_get_integer (GetKeyFilePtr(),
                               section.c_str(),
                               attr.c_str(),
                               &error);
