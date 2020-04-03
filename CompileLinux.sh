@@ -2,6 +2,8 @@
 
 op="$1"
 build_dir="build"
+bin_dir="$build_dir/output/bin"
+bin_name="$bin_dir/assignment4"
 
 if [ "$op" = "clean" ]; then
 	rm -rf $build_dir
@@ -18,10 +20,11 @@ else
 fi
 
 
-mkdir $build_dir
-cd $build_dir
+mkdir -p $build_dir
+pushd $build_dir
 cmake ..
 make 
-make install
-cd output/bin
+popd
+#make install
+$bin_name
 
