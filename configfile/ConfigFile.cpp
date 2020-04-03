@@ -59,7 +59,17 @@ std::string ConfigFile::GetString(const std::string & section, const std::string
     GetPrivateProfileString(section.c_str(), attr.c_str(), default_value.c_str(), iniValue, 256, GetConfigFileStr().c_str());
 #else
     std::cout << "GetString in Linux Env......" << std::endl;
+    g_autoptr(GError) error = NULL;
+    g_key_file_get_locale_string (keyFile,
+                              section.c_str(),
+                              attr.c_str(),
+                              iniValue,
+                              &error);
+    if(error){
+ 	strcpy(iniValue, default_value.c_str());
+    }
 #endif
+
     std::cout << "StringValue: in ["<< section <<"][" << attr << "]:" << iniValue << std::endl;
     //std::cout << "File: "<< GetConfigFileStr().c_str() << std::endl;
     return std::string(iniValue);
