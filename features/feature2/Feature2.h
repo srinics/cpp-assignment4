@@ -1,3 +1,8 @@
+/*
+* Author: M1043833 ( Srinivasan Rajendran )
+* Description: This file (Feature2.h) contains contains prototype for Feature2.cpp
+*
+* */
 #ifndef FEATURE2_H
 #define FEATURE2_H
 
@@ -14,3 +19,4 @@
 extern "C" void LIBRARY_API Feature2();
 
 #endif // FEATURE2_H
+
