@@ -13,7 +13,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${OUTPUT_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${OUTPUT_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${OUTPUT_DIR}/bin)
 
-add_compile_definitions(CONFIG_FILE="${CFG_FILE_PATH}/${CFG_FILE_NAME}")
+add_definitions(-DCONFIG_FILE="${CFG_FILE_PATH}/${CFG_FILE_NAME}")
 
 add_subdirectory (features)
 add_subdirectory (loadlib)
